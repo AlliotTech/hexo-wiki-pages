@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Alliot&#39;s Wiki</title>
+  
+  <subtitle>Maker &amp; Developer</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="https://wiki.iots.vip/"/>
+  <updated>2020-03-24T12:50:56.372Z</updated>
+  <id>https://wiki.iots.vip/</id>
+  
+  <author>
+    <name>Alliot</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>root用户被锁</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/root%E7%94%A8%E6%88%B7%E8%A2%AB%E9%94%81/"/>
+    <id>https://wiki.iots.vip/运维/Linux/问题处理/root用户被锁/</id>
+    <published>2019-08-27T09:36:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<p>提示 Account locked due to 100 failed logins，无法登陆。<br>这是由于设置了 pam 认证机制，在错误次数超过所设值的时候锁定了账户，由于是 root 被锁，我们只能通过登陆普通用户，<code>su -</code> 切换到 root 用户，重置用户错误次数计数来解锁：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pam_tally2 --user root --reset</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;提示 Account locked due to 100 failed logins，无法登陆。&lt;br&gt;这是由于设置了 pam 认证机制，在错误次数超过所设值的时候锁定了账户，由于是 root 被锁，我们只能通过登陆普通用户，&lt;code&gt;su -&lt;/code&gt; 切换到 ro
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="问题处理" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>硬件信息查看</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/%E7%A1%AC%E4%BB%B6%E4%BF%A1%E6%81%AF%E6%9F%A5%E7%9C%8B/"/>
+    <id>https://wiki.iots.vip/运维/Linux/问题处理/硬件信息查看/</id>
+    <published>2019-08-27T09:36:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="CPU"><a href="#CPU" class="headerlink" title="CPU"></a>CPU</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看 CPU 信息（型号）  </span></span><br><span class="line">cat /proc/cpuinfo | grep name </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看物理 CPU 个数  </span></span><br><span class="line">cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l  </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看每个物理 CPU 中 core 的个数(即核数)      总物理核数 = 物理 CPU 个数  乘以 core  </span></span><br><span class="line">cat /proc/cpuinfo| grep "cpu cores"| uniq        # 加 uniq 原因是，每个逻辑 CPU 都会显示一次 cores</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看逻辑 CPU 的个数，如果开了超线程的话，是核数 * 2  </span></span><br><span class="line">cat /proc/cpuinfo| grep "processor"| wc -l</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看CPU的相关信息  </span></span><br><span class="line">lscpu</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> CPU 运行模式（64位 X86）</span></span><br><span class="line">getconf LONG_BIT</span><br></pre></td></tr></table></figure><h3 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">free -G  </span><br><span class="line">dmidecode -t memory  # 不一定准确</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 最大支持内存大小  </span></span><br><span class="line">dmidecode|grep -P 'Maximum\s+Capacity'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 内存的插槽数,已经使用多少插槽.每条内存多大</span></span><br><span class="line">dmidecode | grep -A5 "Memory Device"| grep Size | grep -v Range</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 内存频率  </span></span><br><span class="line">dmidecode|grep -A16 "Memory Device"|grep 'Speed'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看内存的详细信息  </span></span><br><span class="line">cat /proc/meminfo |head -20</span><br></pre></td></tr></table></figure><h3 id="硬盘"><a href="#硬盘" class="headerlink" title="硬盘"></a>硬盘</h3><p>服务器一般都做了 RAID，直接进入 RAID 管理看。<br><code>fdisk -l</code> 看的不一定准确  </p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 硬盘检测（可查看硬盘 SN）</span></span><br><span class="line">smartctl -a /dev/sda</span><br></pre></td></tr></table></figure><h3 id="PCI"><a href="#PCI" class="headerlink" title="PCI"></a>PCI</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lspci | head -10</span><br></pre></td></tr></table></figure><h3 id="网卡"><a href="#网卡" class="headerlink" title="网卡"></a>网卡</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 查看所有网卡</span></span><br><span class="line">lspci | grep -i 'eth'</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 定位到设备名对应的网口  </span></span><br><span class="line">lspci |grep -i eth* # 查找  PCI 网卡设备  </span><br><span class="line">find /sys -name eth</span><br><span class="line">ethtool -p &lt;设备名&gt;  # 对应设备的网口会闪定位灯</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 查看所有网卡链路状态  </span></span><br><span class="line"> for i in `seq 0 9`;do ethtool eth$&#123;i&#125; | egrep 'eth|Link';done</span><br></pre></td></tr></table></figure><h3 id="判断是不是虚拟机"><a href="#判断是不是虚拟机" class="headerlink" title="判断是不是虚拟机"></a>判断是不是虚拟机</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dmidecode -t 1</span><br><span class="line"></span><br><span class="line">dmesg | grep -i virtual # 查看是否有 virtual</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;CPU&quot;&gt;&lt;a href=&quot;#CPU&quot; class=&quot;headerlink&quot; title=&quot;CPU&quot;&gt;&lt;/a&gt;CPU&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;s
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="问题处理" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>终端乱码</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/%E7%BB%88%E7%AB%AF%E4%B9%B1%E7%A0%81/"/>
+    <id>https://wiki.iots.vip/运维/Linux/问题处理/终端乱码/</id>
+    <published>2019-08-27T09:36:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="临时方式"><a href="#临时方式" class="headerlink" title="临时方式"></a>临时方式</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export LANG="en"</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;临时方式&quot;&gt;&lt;a href=&quot;#临时方式&quot; class=&quot;headerlink&quot; title=&quot;临时方式&quot;&gt;&lt;/a&gt;临时方式&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="问题处理" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E9%97%AE%E9%A2%98%E5%A4%84%E7%90%86/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>chrony时间同步</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E5%B8%B8%E7%94%A8%E6%9C%8D%E5%8A%A1/chrony/"/>
+    <id>https://wiki.iots.vip/运维/Linux/常用服务/chrony/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">yum install chrony -y</span><br><span class="line">systemctl enable --now chronyd # 启动服务并设置开机启动  </span><br><span class="line">firewall-cmd --add-service=ntp --permanent </span><br><span class="line">firewall-cmd --reload # 因NTP使用123/UDP端口协议，所以允许NTP服务即可</span><br></pre></td></tr></table></figure><h3 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/chrony.conf</span><br></pre></td></tr></table></figure><p>各字段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"># 使用pool.ntp.org项目中的公共服务器。以server开，理论上你想添加多少时间服务器都可以。</span><br><span class="line"># Please consider joining the pool (http://www.pool.ntp.org/join.html).</span><br><span class="line">#server 0.centos.pool.ntp.org iburst</span><br><span class="line">#server 2.centos.pool.ntp.org iburst</span><br><span class="line">#server 3.centos.pool.ntp.org iburst</span><br><span class="line">server 192.168.170.8 iburst</span><br><span class="line"> </span><br><span class="line"># 根据实际时间计算出服务器增减时间的比率，然后记录到一个文件中，在系统重启后为系统做出最佳时间补偿调整。</span><br><span class="line">driftfile /var/lib/chrony/drift</span><br><span class="line"> </span><br><span class="line"># chronyd根据需求减慢或加速时间调整，</span><br><span class="line"># 在某些情况下系统时钟可能漂移过快，导致时间调整用时过长。</span><br><span class="line"># 该指令强制chronyd调整时期，大于某个阀值时步进调整系统时钟。</span><br><span class="line"># 只有在因chronyd启动时间超过指定的限制时（可使用负值来禁用限制）没有更多时钟更新时才生效。</span><br><span class="line">makestep 1.0 3</span><br><span class="line"> </span><br><span class="line"># 将启用一个内核模式，在该模式中，系统时间每11分钟会拷贝到实时时钟（RTC）。</span><br><span class="line">rtcsync</span><br><span class="line"> </span><br><span class="line"># Enable hardware timestamping on all interfaces that support it.</span><br><span class="line"># 通过使用hwtimestamp指令启用硬件时间戳</span><br><span class="line">#hwtimestamp eth0</span><br><span class="line">#hwtimestamp eth1</span><br><span class="line">#hwtimestamp *</span><br><span class="line"> </span><br><span class="line"># Increase the minimum number of selectable sources required to adjust</span><br><span class="line"># the system clock.</span><br><span class="line">#minsources 2</span><br><span class="line"> </span><br><span class="line"># 指定一台主机、子网，或者网络以允许或拒绝NTP连接到扮演时钟服务器的机器</span><br><span class="line">#allow 192.168.0.0/16</span><br><span class="line">#deny 192.168/16</span><br><span class="line">allow 192.168.0.0/16  允许该网段客户端来同步时间</span><br><span class="line"> </span><br><span class="line"># Serve time even if not synchronized to a time source.</span><br><span class="line">local stratum 10</span><br><span class="line"> </span><br><span class="line"># 指定包含NTP验证密钥的文件。</span><br><span class="line">#keyfile /etc/chrony.keys</span><br><span class="line"> </span><br><span class="line"># 指定日志文件的目录。</span><br><span class="line">logdir /var/log/chrony</span><br><span class="line"> </span><br><span class="line"># Select which information is logged.</span><br><span class="line">#log measurements statistics tracking</span><br></pre></td></tr></table></figure></p><p>修改完配置需要重启 <code>chronyd</code> 服务生效。  </p><h3 id="同步"><a href="#同步" class="headerlink" title="同步"></a>同步</h3><p>使用 <code>ntpdate</code> 来测试，测试前需要安装 <code>ntp</code>：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install ntp</span><br></pre></td></tr></table></figure></p><p>执行：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ntpdate 192.168.170.8 # 从该 IP 同步时间</span><br></pre></td></tr></table></figure></p><h3 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">timedatectl # 查看当前系统时区  </span><br><span class="line">timedatectl list-timezones  # 查看所有可用的时区</span><br><span class="line">timedatectl list-timezones |  grep  -E "Asia/S.*" # 筛选式查看在亚洲S开的上海可用时区  </span><br><span class="line">timedatectl set-timezone Asia/Shanghai # 设置当前系统为Asia/Shanghai上海时区  </span><br><span class="line">chronyc -a makestep # 设置完时区后，强制同步下系统时钟</span><br><span class="line">chronyc sources -v # 查看时间同步源  </span><br><span class="line">chronyc sourcestats -v # 查看时间同步源状态  </span><br><span class="line">timedatectl set-local-rtc 1 # 设置硬件时间（硬件时间默认为 UTC）  </span><br><span class="line">timedatectl set-ntp yes # 启用NTP时间同步  </span><br><span class="line">chronyc tracking # 校准时间服务器</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span 
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="常用服务" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E5%B8%B8%E7%94%A8%E6%9C%8D%E5%8A%A1/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用链接</title>
+    <link href="https://wiki.iots.vip/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/%E5%B8%B8%E7%94%A8%E9%93%BE%E6%8E%A5/"/>
+    <id>https://wiki.iots.vip/工具与效率/常用链接/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li>阿里巴巴开源镜像站文档: <a href="https://opsx.alibaba.com/guide?lang=zh-CN" rel="external nofollow noopener noreferrer" target="_blank">https://opsx.alibaba.com/guide?lang=zh-CN</a>  </li><li>GitHub 使用技巧: <a href="https://zhuanlan.zhihu.com/p/61172248" rel="external nofollow noopener noreferrer" target="_blank">https://zhuanlan.zhihu.com/p/61172248</a>  </li><li>GitHub readme.md 美化: <a href="https://shields.io/" rel="external nofollow noopener noreferrer" target="_blank">https://shields.io/</a>  <a href="https://github.com/phodal/brand" rel="external nofollow noopener noreferrer" target="_blank">https://github.com/phodal/brand</a>  </li><li>快捷键大全: <a href="http://mykeys.sinaapp.com/index.php" rel="external nofollow noopener noreferrer" target="_blank">http://mykeys.sinaapp.com/index.php</a>  </li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;阿里巴巴开源镜像站文档: &lt;a href=&quot;https://opsx.alibaba.com/guide?lang=zh-CN&quot; rel=&quot;external nofollow noopener noreferrer&quot; target=&quot;_blank&quot;&gt;https:
+      
+    
+    </summary>
+    
+      <category term="工具与效率" scheme="https://wiki.iots.vip/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>科学上网</title>
+    <link href="https://wiki.iots.vip/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/"/>
+    <id>https://wiki.iots.vip/工具与效率/科学上网/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="shadowsocks"><a href="#shadowsocks" class="headerlink" title="shadowsocks"></a>shadowsocks</h2><h3 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h3><p>见 <a href="https://www.iots.vip/post/centos-shadowsocks.html">Centos一键搭建SS与多用户配置</a>  </p><h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>Windows：<br>Android:<br>iOS:  </p><h2 id="v2rayN"><a href="#v2rayN" class="headerlink" title="v2rayN"></a>v2rayN</h2><h3 id="部署-1"><a href="#部署-1" class="headerlink" title="部署"></a>部署</h3><h4 id="安装-v2ray-管理面板-sprov-ui"><a href="#安装-v2ray-管理面板-sprov-ui" class="headerlink" title="安装 v2ray 管理面板 sprov-ui:"></a>安装 v2ray 管理面板 sprov-ui:</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -O /usr/bin/sprov-ui -N --no-check-certificate https://raw.githubusercontent.com/seedc/sprov-ui/master/install.sh &amp;&amp; chmod +x /usr/bin/sprov-ui &amp;&amp; sprov-ui</span><br></pre></td></tr></table></figure><h4 id="安装-bbr"><a href="#安装-bbr" class="headerlink" title="安装 bbr:"></a>安装 bbr:</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/yuyeah/sprov-ui/raw/master/bbr.sh &amp;&amp; bash bbr.sh</span><br></pre></td></tr></table></figure><p>完成后重启。  </p><h4 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙:"></a>关闭防火墙:</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br></pre></td></tr></table></figure><h3 id="客户端-1"><a href="#客户端-1" class="headerlink" title="客户端"></a>客户端</h3><p>V2RayN（Windows）：  <a href="https://github.com/2dust/v2rayN/releases" rel="external nofollow noopener noreferrer" target="_blank">Github</a><br>v2rayW（Windows）：  <a href="https://github.com/Cenmrev/V2RayW/releases" rel="external nofollow noopener noreferrer" target="_blank">Github</a><br>v2rayX（macOS）：  <a href="https://github.com/Cenmrev/V2RayX/releases" rel="external nofollow noopener noreferrer" target="_blank">Github</a><br>V2RayU（macOS）：  <a href="https://github.com/yanue/V2rayU/releases" rel="external nofollow noopener noreferrer" target="_blank">Github</a><br>Shadowrocket（iOS）：  <a href="https://itunes.apple.com/us/app/i2ray/id1445270056?mt=8" rel="external nofollow noopener noreferrer" target="_blank">iTunes</a><br>i2Ray（iOS）：  <a href="https://itunes.apple.com/us/app/i2ray/id1445270056?mt=8" rel="external nofollow noopener noreferrer" target="_blank">iTunes</a><br>Quantumult（iOS）：  <a href="https://itunes.apple.com/us/app/quantumult/id1252015438?mt=8" rel="external nofollow noopener noreferrer" target="_blank">iTunes</a><br>BifrostV（Android）：  <a href="https://play.google.com/store/apps/details?id=com.github.dawndiy.bifrostv" rel="external nofollow noopener noreferrer" target="_blank">Google play</a>   <a href="https://apkpure.com/bifrostv/com.github.dawndiy.bifrostv" rel="external nofollow noopener noreferrer" target="_blank">ApkPure</a><br>V2RayNG（Android）：  <a href="https://play.google.com/store/apps/details?id=com.v2ray.ang" rel="external nofollow noopener noreferrer" target="_blank">Google play</a>   <a href="https://github.com/2dust/v2rayNG/releases" rel="external nofollow noopener noreferrer" target="_blank">Github</a>  </p><h2 id="wireguard"><a href="#wireguard" class="headerlink" title="wireguard"></a>wireguard</h2><h3 id="部署-2"><a href="#部署-2" class="headerlink" title="部署"></a>部署</h3><h3 id="客户端-2"><a href="#客户端-2" class="headerlink" title="客户端"></a>客户端</h3><p>Windows：  TunSafe<br>Android:<br>iOS:  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;shadowsocks&quot;&gt;&lt;a href=&quot;#shadowsocks&quot; class=&quot;headerlink&quot; title=&quot;shadowsocks&quot;&gt;&lt;/a&gt;shadowsocks&lt;/h2&gt;&lt;h3 id=&quot;部署&quot;&gt;&lt;a href=&quot;#部署&quot; class=&quot;head
+      
+    
+    </summary>
+    
+      <category term="工具与效率" scheme="https://wiki.iots.vip/categories/%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%95%88%E7%8E%87/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown</title>
+    <link href="https://wiki.iots.vip/%E8%AF%AD%E6%B3%95/Markdown/"/>
+    <id>https://wiki.iots.vip/语法/Markdown/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="文字加粗"><a href="#文字加粗" class="headerlink" title="文字加粗"></a>文字加粗</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="strong">**这是加粗的文字**</span></span><br></pre></td></tr></table></figure><h3 id="斜体"><a href="#斜体" class="headerlink" title="斜体"></a>斜体</h3><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="emphasis">*这是斜体文字*</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;文字加粗&quot;&gt;&lt;a href=&quot;#文字加粗&quot; class=&quot;headerlink&quot; title=&quot;文字加粗&quot;&gt;&lt;/a&gt;文字加粗&lt;/h3&gt;&lt;figure class=&quot;highlight markdown&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;
+      
+    
+    </summary>
+    
+      <category term="语法" scheme="https://wiki.iots.vip/categories/%E8%AF%AD%E6%B3%95/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用代码片段</title>
+    <link href="https://wiki.iots.vip/%E5%BC%80%E5%8F%91/Python/%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81%E7%89%87%E6%AE%B5/"/>
+    <id>https://wiki.iots.vip/开发/Python/常用代码片段/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="模拟POST请求"><a href="#模拟POST请求" class="headerlink" title="模拟POST请求"></a>模拟POST请求</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="comment"># 忽略 requests 请求认证警告(由于这里是https请求，直接发送请求会报错误:SSLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed (_ssl.c:590))</span></span><br><span class="line">requests.packages.urllib3.disable_warnings() </span><br><span class="line">url = <span class="string">'www.iots.vip'</span>  </span><br><span class="line"><span class="comment"># header 为字典格式  </span></span><br><span class="line">headersValue = &#123;</span><br><span class="line">    <span class="string">'Cookie'</span>: <span class="string">'SESSION=xx; Path=/; HttpOnly'</span>,</span><br><span class="line">    <span class="string">'user-agent'</span>: <span class="string">'IRENSHI_APP_AGENT'</span>,</span><br><span class="line">    <span class="string">'Content-Type'</span>: <span class="string">'application/json; charset=utf-8'</span>,</span><br><span class="line">    <span class="string">'Host'</span>: <span class="string">'www.iots.vip'</span>,</span><br><span class="line">    <span class="string">'Connection'</span>: <span class="string">'Keep-Alive'</span>,</span><br><span class="line">    <span class="string">'Accept-Encoding'</span>: <span class="string">'gzip'</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># json 的 body </span></span><br><span class="line">jsonValue = &#123;</span><br><span class="line">    <span class="string">"deviceToken"</span>: <span class="string">" "</span>,</span><br><span class="line">    <span class="string">"deviceType"</span>: <span class="string">"NORMAL"</span>,</span><br><span class="line">    <span class="string">"latitude"</span>: XXX,</span><br><span class="line">    <span class="string">"locationName"</span>: <span class="string">"XXX"</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果 body 为 json 数据，可以直接使用 json = 指定  </span></span><br><span class="line">r = requests.post(url, json=jsonValue, headers=headersValue, verify=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果结果是 json 格式，可以直接使用 r.json 返回 json数据</span></span><br><span class="line"><span class="keyword">print</span> r.json()</span><br></pre></td></tr></table></figure><h3 id="JSON转字典"><a href="#JSON转字典" class="headerlink" title="JSON转字典"></a>JSON转字典</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json  </span><br><span class="line">jsonValue = <span class="string">'&#123;"result":true,"errorCode":null,"errorMessage":null,"data":xxxx&#125;'</span>  </span><br><span class="line">dict1 = json.loads(jsonValue)</span><br></pre></td></tr></table></figure><h3 id="urlencode"><a href="#urlencode" class="headerlink" title="urlencode"></a>urlencode</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> urllib <span class="keyword">import</span> parse  </span><br><span class="line"></span><br><span class="line"><span class="comment">#如果是字典形式  </span></span><br><span class="line">dictValue = &#123;<span class="string">'key'</span>: <span class="string">'华而不实，为所欲为'</span>&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment"># urlencode 对字典或由两元素元组组成的列表进行码编码，将其转换为符合url规范的查询字符串  </span></span><br><span class="line"></span><br><span class="line">print(parse.urlencode(dictValue))</span><br><span class="line"></span><br><span class="line"><span class="comment"># quote 对非ASCII编码的字符进行编码，默认进行UTF-8编码，不对“/”进行编码，一般对请求url路径中非ASCII编码的字符(string)进行编码  </span></span><br><span class="line">strValue = <span class="string">"华而不实，为所欲为"</span>  </span><br><span class="line">a = parse.quote(strValue)</span><br><span class="line">print(a)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解码</span></span><br><span class="line">print(parse.unquote(a))</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;模拟POST请求&quot;&gt;&lt;a href=&quot;#模拟POST请求&quot; class=&quot;headerlink&quot; title=&quot;模拟POST请求&quot;&gt;&lt;/a&gt;模拟POST请求&lt;/h3&gt;&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td c
+      
+    
+    </summary>
+    
+      <category term="开发" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="Python" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/Python/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用函数</title>
+    <link href="https://wiki.iots.vip/%E5%BC%80%E5%8F%91/Python/%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0/"/>
+    <id>https://wiki.iots.vip/开发/Python/常用函数/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h2><h3 id="数学函数"><a href="#数学函数" class="headerlink" title="数学函数"></a>数学函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">abs(x) <span class="comment"># 返回数字的绝对值，如abs(-10) 返回 10  </span></span><br><span class="line">ceil(x) <span class="comment"># 返回数字的上入整数，如math.ceil(4.1) 返回 5  </span></span><br><span class="line">cmp(x, y) <span class="comment"># 如果 x &lt; y 返回 -1, 如果 x == y 返回 0, 如果 x &gt; y 返回 1。 Python 3 已废弃，使用 (x&gt;y)-(x&lt;y) 替换。  </span></span><br><span class="line">exp(x) <span class="comment"># 返回e的x次幂(ex),如math.exp(1) 返回2.718281828459045  </span></span><br><span class="line">fabs(x) <span class="comment"># 返回数字的绝对值，如math.fabs(-10) 返回10.0  </span></span><br><span class="line">floor(x) <span class="comment"># 返回数字的下舍整数，如math.floor(4.9)返回 4  </span></span><br><span class="line">log(x) <span class="comment"># 如math.log(math.e)返回1.0,math.log(100,10)返回2.0  </span></span><br><span class="line">log10(x) <span class="comment"># 返回以10为基数的x的对数，如math.log10(100)返回 2.0  </span></span><br><span class="line">max(x1, x2,...) <span class="comment"># 返回给定参数的最大值，参数可以为序列。  </span></span><br><span class="line">min(x1, x2,...) <span class="comment"># 返回给定参数的最小值，参数可以为序列。  </span></span><br><span class="line">modf(x) <span class="comment"># 返回x的整数部分与小数部分，两部分的数值符号与x相同，整数部分以浮点型表示。</span></span><br><span class="line">pow(x, y) <span class="comment"># x**y 运算后的值。  </span></span><br><span class="line">round(x [,n]) <span class="comment"># 返回浮点数x的四舍五入值，如给出n值，则代表舍入到小数点后的位数。  </span></span><br><span class="line">sqrt(x) <span class="comment"># 返回数字x的平方根。</span></span><br></pre></td></tr></table></figure><h3 id="随机数"><a href="#随机数" class="headerlink" title="随机数"></a>随机数</h3><p>随机数可以用于数学，游戏，安全等领域中，还经常被嵌入到算法中，用以提高算法效率，并提高程序的安全性。<br>Python包含以下常用随机数函数：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">choice(seq) <span class="comment"># 从序列的元素中随机挑选一个元素，比如random.choice(range(10))，从0到9中随机挑选一个整数。  </span></span><br><span class="line">randrange ([start,] stop [,step]) <span class="comment"># 从指定范围内，按指定基数递增的集合中获取一个随机数，基数默认值为 1  </span></span><br><span class="line">random() <span class="comment"># 随机生成下一个实数，它在[0,1)范围内。  </span></span><br><span class="line">seed([x]) <span class="comment"># 改变随机数生成器的种子seed。如果你不了解其原理，你不必特别去设定seed，Python会帮你选择seed。  </span></span><br><span class="line">shuffle(lst) <span class="comment"># 将序列的所有元素随机排序  </span></span><br><span class="line">uniform(x, y) <span class="comment"># 随机生成下一个实数，它在[x,y]范围内。</span></span><br></pre></td></tr></table></figure></p><h3 id="三角函数"><a href="#三角函数" class="headerlink" title="三角函数"></a>三角函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">acos(x) <span class="comment"># 返回x的反余弦弧度值。  </span></span><br><span class="line">asin(x) <span class="comment"># 返回x的反正弦弧度值。  </span></span><br><span class="line">atan(x) <span class="comment"># 返回x的反正切弧度值。  </span></span><br><span class="line">atan2(y, x) <span class="comment"># 返回给定的 X 及 Y 坐标值的反正切值。  </span></span><br><span class="line">cos(x) <span class="comment"># 返回x的弧度的余弦值。  </span></span><br><span class="line">hypot(x, y) <span class="comment"># 返回欧几里德范数 sqrt(x*x + y*y)。 </span></span><br><span class="line">sin(x) <span class="comment"># 返回的x弧度的正弦值。 </span></span><br><span class="line">tan(x) <span class="comment"># 返回x弧度的正切值。 </span></span><br><span class="line">degrees(x) <span class="comment"># 将弧度转换为角度,如degrees(math.pi/2) ， 返回90.0 </span></span><br><span class="line">radians(x) <span class="comment"># 将角度转换为弧度</span></span><br></pre></td></tr></table></figure><h3 id="数学常量"><a href="#数学常量" class="headerlink" title="数学常量"></a>数学常量</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pi <span class="comment"># 数学常量 pi（圆周率，一般以π来表示）  </span></span><br><span class="line">e <span class="comment"># 数学常量 e，e即自然常数（自然常数）。</span></span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p>菜鸟教程 Python3：  <a href="https://www.runoob.com/python3/python3-number.html" rel="external nofollow noopener noreferrer" target="_blank">https://www.runoob.com/python3/python3-number.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;数字&quot;&gt;&lt;a href=&quot;#数字&quot; class=&quot;headerlink&quot; title=&quot;数字&quot;&gt;&lt;/a&gt;数字&lt;/h2&gt;&lt;h3 id=&quot;数学函数&quot;&gt;&lt;a href=&quot;#数学函数&quot; class=&quot;headerlink&quot; title=&quot;数学函数&quot;&gt;&lt;/a&gt;数学函数&lt;/h
+      
+    
+    </summary>
+    
+      <category term="开发" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="Python" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/Python/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>控制台部分用法（草稿）</title>
+    <link href="https://wiki.iots.vip/%E5%BC%80%E5%8F%91/Python/%E6%8E%A7%E5%88%B6%E5%8F%B0%E9%83%A8%E5%88%86%E7%94%A8%E6%B3%95/"/>
+    <id>https://wiki.iots.vip/开发/Python/控制台部分用法/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">del</span> a <span class="comment"># 删除变量 a </span></span><br><span class="line">reset <span class="comment"># 删除所有控制台中的变量  </span></span><br><span class="line">clear <span class="comment"># 同 shell 中的清屏</span></span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span clas
+      
+    
+    </summary>
+    
+      <category term="开发" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="Python" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/Python/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Python环境搭建</title>
+    <link href="https://wiki.iots.vip/%E5%BC%80%E5%8F%91/Python/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>https://wiki.iots.vip/开发/Python/环境搭建/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h2><h2 id="CentOS"><a href="#CentOS" class="headerlink" title="CentOS"></a>CentOS</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p>从 EPEL 仓库安装：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum install epel-release  </span><br><span class="line">yum list |grep python3</span><br><span class="line">yum install python36</span><br><span class="line">yum -y install python-pip</span><br><span class="line">yum install -y python34-setuptools　</span><br><span class="line">easy_install-3.4 pip</span><br><span class="line">pip install --upgrade pip</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;运行环境&quot;&gt;&lt;a href=&quot;#运行环境&quot; class=&quot;headerlink&quot; title=&quot;运行环境&quot;&gt;&lt;/a&gt;运行环境&lt;/h2&gt;&lt;h2 id=&quot;CentOS&quot;&gt;&lt;a href=&quot;#CentOS&quot; class=&quot;headerlink&quot; title=&quot;CentO
+      
+    
+    </summary>
+    
+      <category term="开发" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="Python" scheme="https://wiki.iots.vip/categories/%E5%BC%80%E5%8F%91/Python/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常用运行</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Windows/%E5%B8%B8%E7%94%A8%E8%BF%90%E8%A1%8C/"/>
+    <id>https://wiki.iots.vip/运维/Windows/常用运行/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="DirectX诊断工具"><a href="#DirectX诊断工具" class="headerlink" title="DirectX诊断工具:"></a>DirectX诊断工具:</h3><p>运行 - dxdiag  </p><h3 id="远程桌面"><a href="#远程桌面" class="headerlink" title="远程桌面"></a>远程桌面</h3><p>运行 - mstsc  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;DirectX诊断工具&quot;&gt;&lt;a href=&quot;#DirectX诊断工具&quot; class=&quot;headerlink&quot; title=&quot;DirectX诊断工具:&quot;&gt;&lt;/a&gt;DirectX诊断工具:&lt;/h3&gt;&lt;p&gt;运行 - dxdiag  &lt;/p&gt;
+&lt;h3 id=&quot;远程桌面&quot;&gt;
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Windows" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Windows/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>注册表与服务管理</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Windows/%E6%B3%A8%E5%86%8C%E8%A1%A8%E4%B8%8E%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86/"/>
+    <id>https://wiki.iots.vip/运维/Windows/注册表与服务管理/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="注册表"><a href="#注册表" class="headerlink" title="注册表"></a>注册表</h3><p>如何删除无用的服务项：<br>运行- <code>regedit</code> 定位到 <code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\</code>  删除对应服务名条目即可。  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;注册表&quot;&gt;&lt;a href=&quot;#注册表&quot; class=&quot;headerlink&quot; title=&quot;注册表&quot;&gt;&lt;/a&gt;注册表&lt;/h3&gt;&lt;p&gt;如何删除无用的服务项：&lt;br&gt;运行- &lt;code&gt;regedit&lt;/code&gt; 定位到 &lt;code&gt;HKEY_LOCAL_MACHI
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Windows" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Windows/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Nginx</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/%E4%B8%AD%E9%97%B4%E4%BB%B6/Nginx/"/>
+    <id>https://wiki.iots.vip/运维/中间件/Nginx/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="通过IP访问服务器则跳转到百度"><a href="#通过IP访问服务器则跳转到百度" class="headerlink" title="通过IP访问服务器则跳转到百度"></a>通过IP访问服务器则跳转到百度</h3><p>修改配置文件，添加一个 <code>server</code> 如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80 default;</span><br><span class="line">        server_name _;</span><br><span class="line">        rewrite ^ http://www.baidu.com$request_uri?;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;通过IP访问服务器则跳转到百度&quot;&gt;&lt;a href=&quot;#通过IP访问服务器则跳转到百度&quot; class=&quot;headerlink&quot; title=&quot;通过IP访问服务器则跳转到百度&quot;&gt;&lt;/a&gt;通过IP访问服务器则跳转到百度&lt;/h3&gt;&lt;p&gt;修改配置文件，添加一个 &lt;code&gt;
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="中间件" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>SAN网络</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/SAN%E7%BD%91%E7%BB%9C/"/>
+    <id>https://wiki.iots.vip/运维/存储/SAN网络/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>　　SAN（Storage Area Network），用于主机、存储、带库等之间的互联，走存储 IO。<br>　　FCID<br>　　WWN（World Wide Name），存储技术中的唯一标识符。 </p><h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>Linux 服务器查看 HBA 卡信息<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /sys/class/fc_host/hostX/port_name # wwn 字段  </span><br><span class="line">cat /sys/class/fc_host/hostX/port_stat # 端口状态（online/offline）</span><br></pre></td></tr></table></figure></p><p>SAN 交换机查看接口状态:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">switchshow</span><br></pre></td></tr></table></figure></p><p>查看光衰：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 先通过 switchshow 找到对应端口 id  </span></span><br><span class="line">sfpshow id  </span><br><span class="line"><span class="meta">#</span><span class="bash"> RX Power 在 [-2, -7] 为质量较好；[-7, -10] 质量暂时可以接受；[-10, -14] 不可接受，需要整改；[-14,- 49] 为不能通讯。</span></span><br></pre></td></tr></table></figure></p><h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><p><a href="https://www.iots.vip/post/SAN-config-practice.html">案例:SAN存储区域网络配置练习|Alliot’s blog</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;概念&quot;&gt;&lt;a href=&quot;#概念&quot; class=&quot;headerlink&quot; title=&quot;概念&quot;&gt;&lt;/a&gt;概念&lt;/h2&gt;&lt;p&gt;　　SAN（Storage Area Network），用于主机、存储、带库等之间的互联，走存储 IO。&lt;br&gt;　　FCID&lt;br&gt;　　WW
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="存储" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>porterrshow</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/porterrshow/"/>
+    <id>https://wiki.iots.vip/运维/存储/porterrshow/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>　　brocade 交换机的端口状态异常，通常通过 <code>porterrshow</code> 的输出结果初步排查。需要注意的是， <code>porterrshow</code> 的计数器为日积月累下的数据，大量的历史累积值对故障的排查是没有太大帮助的，在故障发生后，可记录当前的值，清零计数器后再看新值，所得输出结果才是有效的。  </p><h3 id="输出内容"><a href="#输出内容" class="headerlink" title="输出内容"></a>输出内容</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">frames tx/rx: tx代表端口发送的数据帧，rx代表端口收到的数据帧。这两个值反映了通过该端口的数据流量，通常可用来粗略判断哪些端口为使用中，哪些端口为闲置状态。</span><br><span class="line"></span><br><span class="line">enc_in: 8bit/10bit数据帧帧内的编码错误。数据的损坏会造成该值增长，因此该项指标用于标记数据帧内的编码错误。有时相连末端设备重置/重启也会造成该值增长。 </span><br><span class="line"></span><br><span class="line">crc_err: 数据帧 CRC 校验错误。数据帧在Payload之后，在EOF (end of frame)之前会添加一个可用于接收端口校验所接收数据是否损坏的校验码。若数据帧损坏，接收端会发现该值不一致，继而该报错值增长。</span><br><span class="line"></span><br><span class="line">crc_g_eof: 数据帧 CRC 校验错误，且数据帧 EOF是好的。当数据帧首次被交换机检测到CRC错误时，交换机在转发该帧时，会把EOF置为bad(EOFni)；所以后续接收该帧的交换机的端口上，只会有crc_err增长，而crc_g_eof的值保持不变，这样就能很直观的找到产生CRC错误的源头。</span><br><span class="line"></span><br><span class="line">too_long: 通常FC数据帧最大为 2148 字节。若EOF损坏或数据帧生成不正确，则该值随之增长。</span><br><span class="line"></span><br><span class="line">too_short: 如果在SOF (start of frame) 和EOF间的长度小于28(24 Header+ 4 CRC)个字节，则该值随之增长。数据发送方故障和链路的不稳定均可能造成该计数器的增长。</span><br><span class="line"></span><br><span class="line">bad_eof: 数据帧 EOF 报错。</span><br><span class="line"></span><br><span class="line">enc_out: 8bit/10bit 数据帧帧外编码错误造成的错误值累积，通常反映了线缆质量问题，或末端设备异常。此外，由于末端设备的重启带来的端口上下线也可能会引起enc_out的增长。</span><br><span class="line"></span><br><span class="line">disc c3: Class 3数据帧被交换机丢弃。若目标地址不可达或者源端口还没有登录到交换机，以及由于拥塞产生超时丢帧(timeout discards)后，该值均会增长。这个参数仅仅代表有丢包发生，但不能说是这个端口本身存在故障。</span><br><span class="line"></span><br><span class="line">在Brocade Fabric OS微码版本v6.3.1之前，c3 timeout discards值是不分方向的，v6.3.1之后被分为er_rx_c3_timeout和er_tx_c3_timeout两项，rx表示接收数据，tx表示发送数据。当端口发送或者接收帧之后，会消耗掉相应的方向上的缓存，Buffer-to-Buffer credit值减少。如果超过500毫秒（默认情况下，依配置不同可能会有改变）credit值始终为0，则认为后续分发动作无法完成，丢弃尚在缓存中的帧，计数器值增加。有大量er_tx_c3_timeout数值累积的F_Port通常为性能问题的故障点，也就是我们常说的瓶颈设备。关于瓶颈设备的检查，请参照之前的Blog“如何在博科交换机的SAN环境中排查瓶颈设备（Slow Drain Device）？”：https://community.emc.com/community/support/chinese/storagehw/blog</span><br><span class="line"></span><br><span class="line">link fail: 当交换机端口在 LR (Link Reset)接收状态的时间超过 R_A_TOV值时，该错误计数器增长。Link Reset的超时通常会导致Link Failure，且该状态通常说明端口loss of signal 或loss of sync的时长大于R_A_TOV。</span><br><span class="line"></span><br><span class="line">loss sync: bit 或者 transmission-word无法被准确区分确认时会引起信号同步失败。末端设备的重启，光纤线的拔插，或交换机端口的上下线均可能带来该问题。</span><br><span class="line"></span><br><span class="line">loss sig: 接收方没有成功收到信号。与loss sync类似，末端设备的重启，光纤线的拔插，或交换机端口的上下线都有可能信号的丢失。</span><br><span class="line"></span><br><span class="line">link fail, loss sync, loss sig这三个报错在链路初始化的过程中都会产生。而当链路不稳定时，这些错误计数值通常也会随之增长。 </span><br><span class="line"></span><br><span class="line">frjt: class 2数据帧无法处理时会返回F_RJT报错。</span><br><span class="line"></span><br><span class="line">fbsy: class 2数据帧无法在E_D_TOV时间内处理时会被丢弃并返回F_BSY报错。</span><br><span class="line"></span><br><span class="line">frjt和fbsy用于 class 2。通常说来，FC SAN多用class 3数据帧，因此这两类错误较少见，一般多出现在FICON环境中。</span><br></pre></td></tr></table></figure><h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://www.cnblogs.com/hongzhuaxueni/p/5254762.html" rel="external nofollow noopener noreferrer" target="_blank">https://www.cnblogs.com/hongzhuaxueni/p/5254762.html</a>  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;　　brocade 交换机的端口状态异常，通常通过 &lt;code&gt;porterrshow&lt;/code&gt; 的输出结果初步排查。需要注意的是， &lt;
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="存储" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>博科（Brocade）光纤交换机命令</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/%E5%8D%9A%E7%A7%91(Brocade)%E5%85%89%E7%BA%A4%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%91%BD%E4%BB%A4/"/>
+    <id>https://wiki.iots.vip/运维/存储/博科(Brocade)光纤交换机命令/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">uptime # 显示交换机工作时间</span><br><span class="line">ipaddrshow # 显示交换机 IP 地址信息</span><br><span class="line">licenseshow # 显示当前交换机所添加的 license 信息</span><br><span class="line">switchshow # 检查交换机信息及端口状态</span><br><span class="line">switchstatusshow # 显示交换机的运行状态</span><br><span class="line">firmwareshow # 显示微码版本</span><br><span class="line">fanshow # 显示风扇运行状态</span><br><span class="line">tempshow # 显示交换机当前温度信息</span><br><span class="line">psshow # 显示电源运行状态</span><br><span class="line">slotshow # 显示板卡运行状态</span><br><span class="line">hashshow # 显示 CP 版卡 HA 状态,</span><br><span class="line">errdump # 显示错误日志</span><br><span class="line">fabricshow # 显示 fabric 信息及级联信息</span><br><span class="line">cfgshow # 显示交换机配置信息</span><br><span class="line">porterrshow # 显示交换机端口的错误统计</span><br><span class="line">chassisshow # 显示外壳信息及序列号</span><br><span class="line">version # 相看版本</span><br><span class="line">userconfig --show -a # 查看登录帐号</span><br><span class="line">domainsshow # 查看交换机的 domain 信息</span><br><span class="line">aliashow # 查看别名</span><br><span class="line">chassisshow # 显示 chassis 和 WWN 卡的状态</span><br><span class="line">historyshow/historylastshow # 显示历史日志消息</span><br><span class="line"></span><br><span class="line"># 级联互 ping:  </span><br><span class="line">fcping --number 10000 --length 2036 --interval 1 10:00:00:05:33:9f:06:28</span><br><span class="line">级联更改:  </span><br><span class="line">portcfglongdistance 0</span><br><span class="line"></span><br><span class="line"># 备份:  </span><br><span class="line">configuplocad</span><br><span class="line">Protocol (scp or ftp):ftp</span><br><span class="line">host:</span><br><span class="line">user name:</span><br><span class="line">filename:</span><br><span class="line">password:</span><br><span class="line"># 恢复:  </span><br><span class="line">switchdisable # 停用交换机</span><br><span class="line">configdownload</span><br><span class="line">Protocol (scp or ftp):ftp</span><br><span class="line">Server Name or IP Address [host]:</span><br><span class="line">User Name [user]: </span><br><span class="line">File Name [config.txt]:config.txt</span><br><span class="line">.........</span><br><span class="line">Do you want to continue [y/n]:y</span><br><span class="line">Password:</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 设置 IP:</span><br><span class="line">ipaddrset</span><br><span class="line">Ethernet IP Address [10.77.77.77]:</span><br><span class="line">Ethernet Subnetmask [255.255.255.0]:</span><br><span class="line">Fibre Channel IP Address [none]:</span><br><span class="line">Fibre Channel Subnetmask [none]:</span><br><span class="line">Gataway IP Address []:</span><br><span class="line">DHCP [On]</span><br></pre></td></tr></table></figure><h3 id="Zone-配置示例："><a href="#Zone-配置示例：" class="headerlink" title="Zone 配置示例："></a>Zone 配置示例：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"># 创建别名:  </span><br><span class="line">alicreate &quot;member1&quot;,&quot;1,1;1,2;1,3&quot;</span><br><span class="line">alicreate &quot;member2&quot;,&quot;1,2;1,3;1,4&quot;</span><br><span class="line">alicreate &quot;member3&quot;,&quot;1,3;1,4;1,5&quot;</span><br><span class="line">alishow</span><br><span class="line">cfgsave</span><br><span class="line"># 新建 zone 并添加端口: </span><br><span class="line">zonecreate &quot;zone1&quot;,&quot;member1;member2&quot;</span><br><span class="line">zonecreate &quot;zone2&quot;,&quot;1,1;1,7&quot;</span><br><span class="line">zonecreate &quot;zone2&quot;,&quot;member3;1,8&quot;</span><br><span class="line">zoneshow</span><br><span class="line">cfgsave</span><br><span class="line"># 添加 zone:  </span><br><span class="line">zoneadd &quot;zone1&quot; &quot;test1; test2&quot;  </span><br><span class="line"># 新建配置并添加 zone:</span><br><span class="line">cfgcreate &quot;conf1&quot;,&quot;zone1;zone2;zone3&quot;</span><br><span class="line">cfgshow</span><br><span class="line">cfgsave</span><br><span class="line"># 添加 zone 至配置:  </span><br><span class="line">cfgadd &quot;conf1&quot;, &quot;zone4; zone5; zone6&quot;</span><br><span class="line">cfgsave</span><br><span class="line">cfgshow</span><br><span class="line"># 启用配置: </span><br><span class="line">cfgenable conf1</span><br><span class="line"># 存储配置: </span><br><span class="line">cfgsave</span><br><span class="line"></span><br><span class="line"># alias 别名</span><br><span class="line">alicreate &quot;port01&quot;,&quot;0,1&quot;</span><br><span class="line"></span><br><span class="line"># 删除 cfg: </span><br><span class="line">IBM_2005_H16:admin&gt; cfgremove &quot;H16_cfg&quot;,&quot;vmtest&quot;</span><br><span class="line">IBM_2005_H16:admin&gt; cfgsave</span><br><span class="line">IBM_2005_H16:admin&gt; cfgenable H16_cfg</span><br><span class="line">删除 zone: </span><br><span class="line">IBM_2005_H16:admin&gt; zonedelete vmtest</span><br><span class="line">删除 alias:  </span><br><span class="line">.....</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;常用命令：&quot;&gt;&lt;a href=&quot;#常用命令：&quot; class=&quot;headerlink&quot; title=&quot;常用命令：&quot;&gt;&lt;/a&gt;常用命令：&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="存储" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>shell脚本加密</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/shell/shell%E8%84%9A%E6%9C%AC%E5%8A%A0%E5%AF%86/"/>
+    <id>https://wiki.iots.vip/运维/Linux/shell/shell脚本加密/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="第一种，gzexe"><a href="#第一种，gzexe" class="headerlink" title="第一种，gzexe"></a>第一种，gzexe</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzexe 1.sh</span><br></pre></td></tr></table></figure><p>解密：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gzexe -d 1.sh</span><br></pre></td></tr></table></figure></p><h3 id="第二种-shc"><a href="#第二种-shc" class="headerlink" title="第二种,shc"></a>第二种,shc</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shc -T -f 1.sh</span><br></pre></td></tr></table></figure><p>-f 后跟要加密的文件名，-T 这个参数必须要加<br>但是 shc 有个问题，就是加密后的脚本执行非常慢，似乎有一个两秒左右的解压缩时间，</p><h3 id="第三种-upx"><a href="#第三种-upx" class="headerlink" title="第三种,upx"></a>第三种,upx</h3><p>upx 是一个加壳工具，主要用来给可执行文件加密用的，安装过程省略。<br>加密：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 最快压缩</span></span><br><span class="line">upx -1 1.sh</span><br><span class="line"><span class="meta">#</span><span class="bash"> 最强压缩</span></span><br><span class="line">upx -9 1.sh</span><br></pre></td></tr></table></figure></p><p>upx 不能压缩太小文件，而脚本众所周知一般都不大，upx 对 shell 脚本价值减少 90%。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;第一种，gzexe&quot;&gt;&lt;a href=&quot;#第一种，gzexe&quot; class=&quot;headerlink&quot; title=&quot;第一种，gzexe&quot;&gt;&lt;/a&gt;第一种，gzexe&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;t
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="shell" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/shell/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>AIX划盘</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E5%AD%98%E5%82%A8/AIX%E5%88%92%E7%9B%98/"/>
+    <id>https://wiki.iots.vip/运维/Linux/存储/AIX划盘/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="调研信息"><a href="#调研信息" class="headerlink" title="调研信息"></a>调研信息</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lspv # 相当于 Linux 下的 pvs  </span><br><span class="line">lsvg # 相当于 Linux 下的 vgs  </span><br><span class="line">df -g # 相当于 Linux 下的 df -h ，其中 -g 表示 以 gb 为单位显示，也可以 -t 以 tb 为单位 或 -m 以 mb 为单位显示  </span><br><span class="line">lsdev -Cc disk # 列出系统所有磁盘，包括子盘，类似于 Linux 下的 lsblk </span><br><span class="line">powermt display device=all # 列出 EMC 的所有盘  </span><br><span class="line">powermt display device=all | grep hdiskpower</span><br></pre></td></tr></table></figure><h3 id="查看-wwn"><a href="#查看-wwn" class="headerlink" title="查看 wwn:"></a>查看 wwn:</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lscfg -vpl fcs* | grep Net  </span><br><span class="line"><span class="meta">#</span><span class="bash"> 或 </span></span><br><span class="line">lscfg -vpl fcs0 | grep Net </span><br><span class="line">lscfg -vpl fcs1 | grep Net</span><br></pre></td></tr></table></figure><h3 id="扫盘："><a href="#扫盘：" class="headerlink" title="扫盘："></a>扫盘：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cfgmgr  # 相当于 Linux 下的 echo "- - -" &gt; /sys/class/scsi_host/host0/scan</span><br></pre></td></tr></table></figure><h3 id="改-reserver-policy-为-no-reserve"><a href="#改-reserver-policy-为-no-reserve" class="headerlink" title="改 reserver_policy 为 no_reserve"></a>改 reserver_policy 为 no_reserve</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">lsattr -El 盘名 # 检查 attr，如 lsattr -El hdiskpower196 </span><br><span class="line">chdev -l hdiskpower196 -a reserve_policy=no_reserve -P # 修改 attr，其中 -P 为 permanent 表示永久生效</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;调研信息&quot;&gt;&lt;a href=&quot;#调研信息&quot; class=&quot;headerlink&quot; title=&quot;调研信息&quot;&gt;&lt;/a&gt;调研信息&lt;/h3&gt;&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pr
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="存储" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>LVM</title>
+    <link href="https://wiki.iots.vip/%E8%BF%90%E7%BB%B4/Linux/%E5%AD%98%E5%82%A8/LVM/"/>
+    <id>https://wiki.iots.vip/运维/Linux/存储/LVM/</id>
+    <published>2019-07-31T16:00:00.000Z</published>
+    <updated>2020-03-24T12:50:56.372Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>　　简单来说 PV 是物理的磁盘分区，LVM 中的物理的磁盘分区（PV），必须加入 VG，而从 VG 中划分的逻辑分区就被称为 LV。  </p><h3 id="物理存储介质"><a href="#物理存储介质" class="headerlink" title="物理存储介质"></a>物理存储介质</h3><p>　　The physical media，这里指系统的存储设备：硬盘，如：/dev/hda1、/dev/sda 等等，是存储系统最低层的存储单元。  </p><h3 id="物理卷"><a href="#物理卷" class="headerlink" title="物理卷"></a>物理卷</h3><p>　　PV(Physical Volume)： 物理卷就是指硬盘分区或从逻辑上与磁盘分区具有同样功能的设备(如RAID)，是LVM的基本存储逻辑块，但和基本的物理存储介质（如分区、磁盘等）比较，却包含有与LVM相关的管理参数。  </p><h3 id="卷组"><a href="#卷组" class="headerlink" title="卷组"></a>卷组</h3><p>　　VG(Volume Group)：LVM卷组类似于非LVM系统中的物理硬盘，其由物理卷组成。可以在卷组上创建一个或多个“LVM分区”（逻辑卷），LVM卷组由一个或多个物理卷组成。  </p><h3 id="逻辑卷"><a href="#逻辑卷" class="headerlink" title="逻辑卷"></a>逻辑卷</h3><p>　　LV(Logical Volume)：LVM 的逻辑卷类似于非 LVM 系统中的硬盘分区，在逻辑卷之上可以建立文件系统(比如/home或者/usr等)。  </p><h3 id="PE"><a href="#PE" class="headerlink" title="PE"></a>PE</h3><p>　　Physical Extent：每一个物理卷被划分为称为 PE 的基本单元，具有唯一编号的PE是可以被LVM寻址的最小单元。PE的大小是可配置的，默认为4MB。  </p><h3 id="LE"><a href="#LE" class="headerlink" title="LE"></a>LE</h3><p>　　Logical Extents，逻辑卷也被划分为被称为 LE 的可被寻址的基本单位。在同一个卷组中，LE 的大小和 PE 是相同的，并且一一对应。  </p><h2 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h2><h3 id="新加磁盘创建PV"><a href="#新加磁盘创建PV" class="headerlink" title="新加磁盘创建PV"></a>新加磁盘创建PV</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsblk # 显示块设备</span><br></pre></td></tr></table></figure><p>格式化磁盘为 LVM 类型（如果不需要分区，则可跳过这步）：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sda </span><br><span class="line"><span class="meta">#</span><span class="bash"> 输入 n 选择类型为 8e(LVM) 类型</span></span><br></pre></td></tr></table></figure></p><p>创建 PV：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pvcreate /dev/sda(10,11)  # 创建 sda10 和 sda11 PV  </span><br><span class="line">pvscan    # 扫描物理卷</span><br></pre></td></tr></table></figure></p><h3 id="创建VG"><a href="#创建VG" class="headerlink" title="创建VG"></a>创建VG</h3><p>创建名为 vg_name 的 VG 并将 sdb、sdc、sdd 三个 PV 加入到该 VG 中：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgcreate vg_name /dev/sdb /dev/sdc /dev/sdd</span><br></pre></td></tr></table></figure></p><h3 id="拓展VG"><a href="#拓展VG" class="headerlink" title="拓展VG"></a>拓展VG</h3><p>将 PV sdb 加入到 vg_name 中：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vgextend vg_name /dev/sdb</span><br></pre></td></tr></table></figure></p><h3 id="缩减VG"><a href="#缩减VG" class="headerlink" title="缩减VG"></a>缩减VG</h3><h4 id="需求：-将-pv-dev-sda10-从-vg1-移除，以缩减-vg1-大小"><a href="#需求：-将-pv-dev-sda10-从-vg1-移除，以缩减-vg1-大小" class="headerlink" title="需求： 将 pv(/dev/sda10) 从  vg1 移除，以缩减 vg1 大小"></a>需求： 将 pv(/dev/sda10) 从  vg1 移除，以缩减 vg1 大小</h4><h4 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h4><p>缩减 VG 是比较危险的操作 ，应注意以下几点：  </p><ol><li>确保缩减后的空间大小依然能储存原有的所有数据;  </li><li>先将数据移动到其他 PV 后(<code>pvmove</code>)才能进行缩减 PV（<code>pvreduce</code>）操作。  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">pvs # 查看 pv 信息 </span><br><span class="line">pvmove /dev/sda10 # 将 /dev/sda10 的数据移动到其他 PV 中去  </span><br><span class="line">vgreduce vg1 /dev/sda10 # 将 PV 从对应的 VG 中移除  </span><br><span class="line">pvs # 查看是否从 VG 成功移除该 PV </span><br><span class="line">pvremove /dev/sda10 # 删除 PV</span><br><span class="line">vgscan   # 扫描VG</span><br></pre></td></tr></table></figure></li></ol><h3 id="创建LV"><a href="#创建LV" class="headerlink" title="创建LV"></a>创建LV</h3><h4 id="需求：-从-vg1-中创建一个大小为50G，名为-lv1-的-LV，并挂载到-lv1"><a href="#需求：-从-vg1-中创建一个大小为50G，名为-lv1-的-LV，并挂载到-lv1" class="headerlink" title="需求： 从 vg1 中创建一个大小为50G，名为 lv1 的 LV，并挂载到 /lv1"></a>需求： 从 vg1 中创建一个大小为50G，名为 lv1 的 LV，并挂载到 /lv1</h4><h4 id="实现：-1"><a href="#实现：-1" class="headerlink" title="实现："></a>实现：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vgs # 查看空间是否足够创建 50G 的 LV </span><br><span class="line">lvcreate -L 50G(大小) -n lv1(LV名) vg1(VG名) # 从 vg1 中创建大小为 50G 的 lv1  </span><br><span class="line">lvchange -ay /dev/lv_name # 激活 lv (可选操作 也可不做此操作 不影响)</span><br><span class="line">mkfs.ext4 /dev/vg1/lv1 # 格式化 lv1 为 ext4 格式</span><br><span class="line">mkfs.xfs /dev/vg1/lv1 # 格式化 lv1 为 xfs 格式</span><br><span class="line">mount /dev/vg1/lv1 /lv1(挂载点) # 挂载到 /lv1 目录，这里注意： 实际设备文件在 /dev/mapper/vg1-lv1</span><br></pre></td></tr></table></figure><p>修改 /etc/fstab 追加一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/dev/mapper/vg1-lv1 /lv1  ext4     defaults        0 0</span><br></pre></td></tr></table></figure></p><p>并 mount -a 自动挂载测试一下。  </p><h3 id="创建LV-1"><a href="#创建LV-1" class="headerlink" title="创建LV"></a>创建LV</h3><p>将 vg_name 中所有容量给 lv_name：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lvcreate -l +100%FREE -n lv_name vg_name</span><br></pre></td></tr></table></figure></p><h3 id="扩展LV"><a href="#扩展LV" class="headerlink" title="扩展LV"></a>扩展LV</h3><h4 id="需求：-将-home（挂载的-LV-为-dev-mapper-centos-var）扩容-5G"><a href="#需求：-将-home（挂载的-LV-为-dev-mapper-centos-var）扩容-5G" class="headerlink" title="需求： 将 /home（挂载的 LV 为 /dev/mapper/centos-var）扩容 5G."></a>需求： 将 /home（挂载的 LV 为 /dev/mapper/centos-var）扩容 5G.</h4><h4 id="实现：-2"><a href="#实现：-2" class="headerlink" title="实现："></a>实现：</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">df -h  # 查看文件系统对应的 LV  这里确认到 /home 挂载点的 LV 为 /dev/mapper/centos-var  </span><br><span class="line">vgs  # 查看 vg 的 free 空间  如果要查看详细的信息，用 vgdisplay</span><br><span class="line">lvextend -L +5G /dev/mapper/centos-var  # 给该 LV 扩容 5G，如果是扩容到 5G 则把 + 去掉  </span><br><span class="line">resize2fs -p /dev/mapper/centos-var  # 调整文件系统大小以生效，这里也可以指定扩展后的大小 resize2fs /dev/mapper/vg1-lv1 5G 但是还是推荐前者，因为如果指定的文件系统边界大于物理边界，会损坏数据</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果是 xfs 文件系统 则为：  </span></span><br><span class="line">xfs_growfs /dev/mapper/centos-var</span><br><span class="line">df -h # 查看是否生效</span><br></pre></td></tr></table></figure><h3 id="缩减LV"><a href="#缩减LV" class="headerlink" title="缩减LV"></a>缩减LV</h3><h4 id="需求：-将-home（挂载的-LV-为-dev-mapper-centos-var）缩减到-4G"><a href="#需求：-将-home（挂载的-LV-为-dev-mapper-centos-var）缩减到-4G" class="headerlink" title="需求： 将 /home（挂载的 LV 为 /dev/mapper/centos-var）缩减到 4G."></a>需求： 将 /home（挂载的 LV 为 /dev/mapper/centos-var）缩减到 4G.</h4><h4 id="实现：-3"><a href="#实现：-3" class="headerlink" title="实现："></a>实现：</h4><p>缩减逻辑卷是比较危险的操作 ，应注意以下几点：<br>1.不能在线缩减，需要先卸载，xfs 文件系统无法缩减；<br>2.确保缩减后的空间大小依然能储存原有的所有数据；<br>3.缩减之前应该强行检查文件，确保文件系统处于一致性状态。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">df -lh # 查看文件系统对应的 LV  这里确认到 /home 挂载点的 LV 为 /dev/mapper/centos-var，并确认其已用空间大小，保证缩减后的大小大于已用空间    </span><br><span class="line">umount /home # 卸载 /home </span><br><span class="line">df -lh # 确认卸载成功  </span><br><span class="line">e2fsck -f /dev/vg1/lv1 # 强制进行文件系统检测  </span><br><span class="line">resize2fs /home 4G # 缩减文件系统到 4G  </span><br><span class="line">lvreduce -L 4G /dev/vg1/lv1  # 缩减 LV 到 4G </span><br><span class="line">mount -a # 重新挂载</span><br></pre></td></tr></table></figure><h3 id="移除LV"><a href="#移除LV" class="headerlink" title="移除LV"></a>移除LV</h3><p>直接使用 <code>lvremove</code> 是无法移除的，必须先卸载：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">umount /lv1 # 卸载 lv1</span><br><span class="line">lvremove /dev/vg1/lv1  # 移除 vg1 中的 lv1</span><br></pre></td></tr></table></figure></p><h3 id="快照LV"><a href="#快照LV" class="headerlink" title="快照LV"></a>快照LV</h3><p>待补充  </p><h2 id="其他命令"><a href="#其他命令" class="headerlink" title="其他命令"></a>其他命令</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">df -T # 只可以查看已经挂载的分区和文件系统类型。</span><br><span class="line">fdisk -l # 可以显示出所有挂载和未挂载的分区，但不显示文件系统类型。</span><br><span class="line">parted -l # 可以查看未挂载的文件系统类型，以及哪些分区尚未格式化。</span><br><span class="line">lsblk -f # 也可以查看未挂载的文件系统类型。</span><br><span class="line">file -s /dev/sda3</span><br><span class="line"></span><br><span class="line">partprobe /dev/sda # 重新读取分区表 </span><br><span class="line"><span class="meta">#</span><span class="bash"> fdisk 最多只能支持到15个分区，创建超过15个分区比较麻烦 </span></span><br><span class="line">cat /proc/partitions # 查看分区</span><br></pre></td></tr></table></figure><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html" rel="external nofollow noopener noreferrer" target="_blank">https://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html</a><br>马哥教育-初级-38-LV之二  </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;基本概念&quot;&gt;&lt;a href=&quot;#基本概念&quot; class=&quot;headerlink&quot; title=&quot;基本概念&quot;&gt;&lt;/a&gt;基本概念&lt;/h2&gt;&lt;p&gt;　　简单来说 PV 是物理的磁盘分区，LVM 中的物理的磁盘分区（PV），必须加入 VG，而从 VG 中划分的逻辑分区就被称
+      
+    
+    </summary>
+    
+      <category term="运维" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/"/>
+    
+      <category term="Linux" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/"/>
+    
+      <category term="存储" scheme="https://wiki.iots.vip/categories/%E8%BF%90%E7%BB%B4/Linux/%E5%AD%98%E5%82%A8/"/>
+    
+    
+  </entry>
+  
+</feed>
